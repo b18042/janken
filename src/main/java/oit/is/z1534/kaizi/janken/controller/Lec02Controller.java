@@ -25,4 +25,30 @@ public class Lec02Controller {
     return "lec02.html";
   }
 
+  /**
+   * パスパラメータ2つをGETで受け付ける 1つ目の変数をparam1という名前で，2つ目の変数をparam2という名前で受け取る
+   * GETで受け取った2つの変数とsample22の引数の名前が同じなため， 引数の前に @PathVariable と付けるだけで，パスパラメータの値を
+   * javaで処理できるようになる ModelMapはthymeleafに渡すためのMapと呼ばれるデータ構造を持つ変数
+   * Mapはkeyとvalueの組み合わせで値を保持する
+   *
+   * @param param1
+   * @param model1
+   * @param model2
+   * @return
+   */
+  @GetMapping("/sample22/{param1}")
+  public String sample22(@PathVariable Integer param1, ModelMap model1,ModelMap model2) {
+    if(param1 > 2){
+      model1.addAttribute("YourHand", "Pa");
+      model2.addAttribute("Result", "You Win!!");
+    }else if(param1 < 2){
+      model1.addAttribute("YourHand", "Chi");
+      model2.addAttribute("Result", "You lose...");
+    }else{
+      model1.addAttribute("YourHand", "Gu");
+      model2.addAttribute("Result", "-Draw-");
+    }
+    return "lec02.html";
+  }
+
 }
