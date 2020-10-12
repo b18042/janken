@@ -7,7 +7,19 @@
 </head>
 
 <body>
-  <h1>Hi [[${name}]]</h1>
+  <div th:if="${name}">
+    <h1>Hi [[${name}]]</h1>
+  </div>
+  <tr>
+    <a href="/sample22/2">ぐー</a>
+    <a href="/sample22/1">ちょき</a>
+    <a href="/sample22/3">ぱー</a>
+  </tr>
+  <div th:if="${YourHand}">
+    <p>あなたの手 [[${YourHand}]]</p>
+    <p>相手の手 Gu</p>
+    <p>結果：[[${Result}]]</p>
+  </div>
 
 </body>
 
