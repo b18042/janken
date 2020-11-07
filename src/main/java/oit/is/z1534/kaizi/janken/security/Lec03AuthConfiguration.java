@@ -16,8 +16,11 @@ public class Lec03AuthConfiguration extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
+    //pAssw0rd
     auth.inMemoryAuthentication().withUser("user1").password("$2y$10$rJ9yqGht2W96MdIJICRQQOuUiYrt2eDokKnDuZZof2DPs83PN6QdC").roles("USER");
-    auth.inMemoryAuthentication().withUser("user2").password(passwordEncoder().encode("password")).roles("USER");
+
+    //password
+    auth.inMemoryAuthentication().withUser("user2").password("$2y$10$gFjHRr7X56Tm8vigd8.6rOdHwRasTa.MJAnUd3.vP51weegcR6.Ay").roles("USER");
 
   }
 
@@ -32,6 +35,10 @@ public class Lec03AuthConfiguration extends WebSecurityConfigurerAdapter {
     http.formLogin();
 
     http.authorizeRequests().antMatchers("/lec02/**").authenticated();
+
+    http.csrf().disable();
+    http.headers().frameOptions().disable();
+
      http.logout().logoutSuccessUrl("/");
   }
 }
