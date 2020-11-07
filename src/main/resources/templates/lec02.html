@@ -13,11 +13,36 @@
   <h1>Lec02 GET!!</h1>
 
   <div th:if="${entry}">
-    エントリー
+    <b>エントリー</b>
     <ul>
       <li th:each="user : ${entry.users}">[[${user}]]</li>
     </ul>
   </div>
+
+  <p th:if="${userA}">
+  <div th:each="user,stat:${userA}">
+    <tr>
+      <td>id:[[${user.id}]] </td>
+      <td>名前:[[${user.name}]]</td>
+    </tr>
+  </div>
+  </p>
+
+  <div th:if="${entry}">
+    <b>試合結果</b>
+  </div>
+
+  <p th:if="${matchA}">
+  <div th:each="match,stat:${matchA}">
+    <tr>
+      <td>id:[[${match.id}]] </td>
+      <td>user_1:[[${match.user_1}]] </td>
+      <td>user_2:[[${match.user_2}]] </td>
+      <td>user_1の手</td>:[[${match.user_1_hand}]] </td>
+      <td>user_2の手:[[${match.user_2_hand}]] </td>
+    </tr>
+  </div>
+  </p>
 
 
   <div th:if="${name}">

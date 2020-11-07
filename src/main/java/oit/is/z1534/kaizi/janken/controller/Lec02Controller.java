@@ -1,6 +1,7 @@
 package oit.is.z1534.kaizi.janken.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import oit.is.z1534.kaizi.janken.model.User;
+import oit.is.z1534.kaizi.janken.model.UserMapper;
+import oit.is.z1534.kaizi.janken.model.Match;
+import oit.is.z1534.kaizi.janken.model.MatchMapper;
+
+
 import oit.is.z1534.kaizi.janken.model.Entry;
 
 @Controller
@@ -18,6 +25,11 @@ public class Lec02Controller {
 
   @Autowired
   private Entry entry;
+  @Autowired
+  UserMapper userMapper;
+  @Autowired
+  MatchMapper matchMapper;
+
   /**
    * POSTを受け付ける場合は@PostMappingを利用する /sample25へのpostを受け付けて，FormParamで指定された変数(input
    * name)をsample25()メソッドの引数として受け取ることができる
@@ -29,9 +41,13 @@ public class Lec02Controller {
   @GetMapping("/lec02")
   public String sample25(Principal prin, ModelMap model) {
     String loginUser = prin.getName();
-    this.entry.addUser(loginUser);
-    model.addAttribute("entry", this.entry);
-    model.addAttribute("name", loginUser);
+      this.entry.addUser(loginUser);
+      model.addAttribute("entry", this.entry);
+      model.addAttribute("name", loginUser);
+    ArrayList<User> userA = userMapper.selectAllUser();
+      model.addAttribute("userA", userA);
+    ArrayList<Match> matchA = matchMapper.selectAllMatch();
+      model.addAttribute("matchA", matchA);
     return "lec02.html";
   }
 
