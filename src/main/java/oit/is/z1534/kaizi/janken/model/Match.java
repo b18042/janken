@@ -6,6 +6,15 @@ public class Match {
   int user_2;
   String user_1_hand;
   String user_2_hand;
+  boolean is_active;
+
+  public boolean getIs_active() {
+    return is_active;
+  }
+
+  public void setIs_active(boolean is_active) {
+    this.is_active = is_active;
+  }
 
   public String getUser_2_hand() {
     return user_2_hand;
