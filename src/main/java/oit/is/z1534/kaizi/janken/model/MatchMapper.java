@@ -13,4 +13,11 @@ public interface MatchMapper {
   @Select("SELECT * from matches")
   ArrayList<Match> selectAllMatch();
 
+  /**
+  * @param match
+  */
+  @Insert("INSERT INTO matches (user_1,user_2,user_1_hand,user_2_hand) VALUES (#{user_1},#{user_2},#{user_1_hand},#{user_2_hand});")
+  @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
+  void insertMatch(Match match);
+
 }

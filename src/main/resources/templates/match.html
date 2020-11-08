@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.springframework.org/schema/security">
+
+<head>
+  <meta charset="utf-8">
+  <title>Match</title>
+</head>
+
+<body>
+
+  <div><b>[[${user.name}]] V.S. [[${vs_user.name}]]</b></div>
+
+  <tr>
+    <a th:href="@{/sample22/2(vs_userid=${vs_user.id})}">ぐー</a>
+    <a th:href="@{/sample22/1(vs_userid=${vs_user.id})}">ちょき</a>
+    <a th:href="@{/sample22/3(vs_userid=${vs_user.id})}">ぱー</a>
+  </tr>
+  <div th:if="${ma_resu}">
+    <p>あなたの手 [[${ma_resu.user_1_hand}]]</p>
+    <p>相手の手 [[${ma_resu.user_2_hand}]]</p>
+    <p>結果：[[${Result}]]</p>
+  </div>
+
+  <a href="/lec02">もどる</a>
+
+</body>
+
+</html>
