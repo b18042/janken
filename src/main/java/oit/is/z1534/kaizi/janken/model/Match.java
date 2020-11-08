@@ -7,7 +7,6 @@ public class Match {
   String user_1_hand;
   String user_2_hand;
 
-
   public String getUser_2_hand() {
     return user_2_hand;
   }
@@ -28,7 +27,7 @@ public class Match {
     return user_2;
   }
 
-  public void setUser_2() {
+  public void setUser_2(int user_2) {
     this.user_2 = user_2;
   }
 
@@ -36,7 +35,7 @@ public class Match {
     return user_1;
   }
 
-  public void setUser_1() {
+  public void setUser_1(int user_1) {
     this.user_1 = user_1;
   }
 

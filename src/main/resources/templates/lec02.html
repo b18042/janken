@@ -11,53 +11,32 @@
     <a href="/logout">ログアウト</a>
   </tr>
   <h1>Lec02 GET!!</h1>
+  <div th:if="${name}">
+    <p>Hi [[${name}]]</p>
+  </div>
+
 
   <div th:if="${entry}">
     <b>エントリー</b>
     <ul>
-      <li th:each="user : ${entry.users}">[[${user}]]</li>
+      <li th:each="user,stat:${userA}">
+        <a th:href="@{/match(id=${user.id})}">[[${user.name}]]</a>
+      </li>
     </ul>
   </div>
 
-  <p th:if="${userA}">
-  <div th:each="user,stat:${userA}">
-    <tr>
-      <td>id:[[${user.id}]] </td>
-      <td>名前:[[${user.name}]]</td>
-    </tr>
-  </div>
-  </p>
-
-  <div th:if="${entry}">
-    <b>試合結果</b>
-  </div>
-
   <p th:if="${matchA}">
+    <b>試合結果</b>
   <div th:each="match,stat:${matchA}">
     <tr>
       <td>id:[[${match.id}]] </td>
       <td>user_1:[[${match.user_1}]] </td>
       <td>user_2:[[${match.user_2}]] </td>
-      <td>user_1の手</td>:[[${match.user_1_hand}]] </td>
+      <td>user_1の手:[[${match.user_1_hand}]] </td>
       <td>user_2の手:[[${match.user_2_hand}]] </td>
     </tr>
   </div>
   </p>
-
-
-  <div th:if="${name}">
-    <p>Hi [[${name}]]</p>
-  </div>
-  <tr>
-    <a href="/sample22/2">ぐー</a>
-    <a href="/sample22/1">ちょき</a>
-    <a href="/sample22/3">ぱー</a>
-  </tr>
-  <div th:if="${YourHand}">
-    <p>あなたの手 [[${YourHand}]]</p>
-    <p>相手の手 Gu</p>
-    <p>結果：[[${Result}]]</p>
-  </div>
 
 </body>
 
