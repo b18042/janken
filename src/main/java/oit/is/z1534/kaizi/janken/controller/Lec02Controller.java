@@ -12,11 +12,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import oit.is.z1534.kaizi.janken.model.User;
 import oit.is.z1534.kaizi.janken.model.UserMapper;
 import oit.is.z1534.kaizi.janken.model.Match;
 import oit.is.z1534.kaizi.janken.model.MatchMapper;
+import oit.is.z1534.kaizi.janken.model.MatchInfo;
+import oit.is.z1534.kaizi.janken.model.MatchInfoMapper;
+import oit.is.z1534.kaizi.janken.service.AsyncKekka;
 
 
 import oit.is.z1534.kaizi.janken.model.Entry;
@@ -30,6 +34,10 @@ public class Lec02Controller {
   UserMapper userMapper;
   @Autowired
   MatchMapper matchMapper;
+  @Autowired
+  MatchInfoMapper matchinfoMapper;
+  @Autowired
+  AsyncKekka kekka;
 
   /**
    * POSTを受け付ける場合は@PostMappingを利用する /sample25へのpostを受け付けて，FormParamで指定された変数(input
@@ -39,8 +47,8 @@ public class Lec02Controller {
    * @param model
    * @return
    */
-  @GetMapping("/lec02")
-  public String sample25(Principal prin, ModelMap model) {
+  @GetMapping("/lec02/step1")
+  public String lec02(Principal prin, ModelMap model) {
     String loginUser = prin.getName();
         this.entry.addUser(loginUser);
           model.addAttribute("entry", this.entry);
@@ -49,6 +57,30 @@ public class Lec02Controller {
       model.addAttribute("userA", userA);
     ArrayList<Match> matchA = matchMapper.selectAllMatch();
       model.addAttribute("matchA", matchA);
+    return "lec02.html";
+  }
+
+  /**
+   * @param param1
+   * @param prin
+   * @param model
+   * @param return
+   */
+
+  @GetMapping("lec02/step2")
+  @Transactional
+  public String lec02_2(@RequestParam Integer param1, Principal prin, ModelMap model){
+    String loginUser = prin.getName();
+        this.entry.addUser(loginUser);
+          model.addAttribute("entry", this.entry);
+      model.addAttribute("name", loginUser);
+    ArrayList<User> userA = userMapper.selectAllUser();
+      model.addAttribute("userA", userA);
+    ArrayList<Match> matchA = matchMapper.selectAllMatch();
+      model.addAttribute("matchA", matchA);
+    Match match = matchMapper.selectLastMatch();
+      match.setIs_active(false);
+      matchMapper.updateById(match);
     return "lec02.html";
   }
 
@@ -66,6 +98,12 @@ public class Lec02Controller {
     String loginUser = prin.getName();
     User user = userMapper.selectByName(loginUser);
       model.addAttribute("user", user);
+    MatchInfo ma_info = new MatchInfo();
+      int user_id = user.getId();
+      ma_info.setUser_1(user_id);
+      ma_info.setUser_2(id);
+      ma_info.setIs_active(true);
+      matchinfoMapper.insertMatchInfo(ma_info);
     return "match.html";
   }
 
@@ -83,10 +121,10 @@ public class Lec02Controller {
    */
   @GetMapping("/sample22/{param1}")
   @Transactional
-  public String sample22(@PathVariable Integer param1, @RequestParam Integer vs_userid, Principal prin, ModelMap model) {
+  public String draw_wait(@PathVariable Integer param1, @RequestParam Integer vs_userid, Principal prin, ModelMap model) {
     String loginUser = prin.getName();
-    User vs_user = userMapper.selectById(vs_userid);
-    User user = userMapper.selectByName(loginUser);
+      User vs_user = userMapper.selectById(vs_userid);
+      User user = userMapper.selectByName(loginUser);
     Match ma_resu = new Match();
       int userid = user.getId();
       ma_resu.setUser_1(userid);
@@ -103,12 +141,24 @@ public class Lec02Controller {
       ma_resu.setUser_1_hand("Gu");
       result = "-Draw-";
     }
+    boolean t = false;
+    ma_resu.setIs_active(t);
     model.addAttribute("ma_resu", ma_resu);
     model.addAttribute("vs_user", vs_user);
     model.addAttribute("user", user);
     model.addAttribute("Result", result);
     matchMapper.insertMatch(ma_resu);
-    return "match.html";
+    return "wait.html";
+  }
+
+  /**
+   * @return
+   */
+  @GetMapping("/step8")
+  public SseEmitter sample58() {
+    final SseEmitter sseEmitter = new SseEmitter();
+    this.kekka.asyncShowReturn(sseEmitter);
+    return sseEmitter;
   }
 
 }
